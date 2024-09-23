@@ -18,3 +18,7 @@ export interface GameBoardProps {
 export interface AttemptsCounterProps {
     attempts: number;
 }
+
+export interface ResetButtonProps {
+    onReset: () => void;
+}
