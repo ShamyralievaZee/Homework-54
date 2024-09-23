@@ -1,35 +1,55 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { Item } from './types';
+import AttemptsCounter from './Components/AttemptsCounter.tsx';
+import GameBoard from './Components/GameBoard.tsx';
+import ResetButton from './Components/ResetButton.tsx';
 
-function App() {
-  const [count, setCount] = useState(0);
+const createSquares = (): Item[] => {
+    const squares = Array(36).fill(null).map(() => ({ hasItem: false, clicked: false }));
+    const randomIndex = Math.floor(Math.random() * 36);
+    squares[randomIndex].hasItem = true;
+    return squares;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
-}
+const App: React.FC = () => {
+    const [items, setItems] = useState<Item[]>(createSquares());
+    const [attempts, setAttempts] = useState<number>(0);
+    const [gameOver, setGameOver] = useState<boolean>(false);
+
+    const clickHandle = (index: number) => {
+        if (items[index].clicked || gameOver) return;
+
+        const newItems = [...items];
+        newItems[index].clicked = true;
+        setAttempts(attempts + 1);
+
+        if (newItems[index].hasItem) {
+            setItems(newItems);
+            setGameOver(true);
+
+            setTimeout(() => {
+                alert('Congrats! You found the diamond!');
+            }, 100);
+        } else {
+            setItems(newItems);
+        }
+    };
+
+    const resetGame = () => {
+        setItems(createSquares());
+        setAttempts(0);
+        setGameOver(false);
+    };
+
+    return (
+        <div className="app">
+            <h1>Find the hidden diamond!</h1>
+            <GameBoard items={items} onCellClick={clickHandle} />
+            <AttemptsCounter attempts={attempts} />
+            <ResetButton onReset={resetGame} />
+        </div>
+    );
+};
 
 export default App;

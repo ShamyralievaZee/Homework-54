@@ -5,38 +5,35 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.app {
+  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.game-board {
+  width: 390px;
+  display: grid;
+  grid-template-columns: repeat(6, 60px);
+  grid-gap: 5px;
+  margin: 20px auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.cell {
+  width: 60px;
+  height: 60px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s;
 }
 
-.card {
-  padding: 2em;
+.cell.clicked {
+  background-color: #f6f6f6;
 }
 
-.read-the-docs {
-  color: #888;
+.cell.has-item {
+  background-color: #fff;
 }
